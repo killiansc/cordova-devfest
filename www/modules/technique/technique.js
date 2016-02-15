@@ -1,5 +1,5 @@
-angular.module('conf.technique', [])
-    .controller('techController', function () {
+angular.module('conf.technique', ['ngCordova'])
+    .controller('techController', function ($cordovaDevice, $cordovaNetwork) {
         var vm = this;
 
         function checkConnection(connection) {
@@ -25,15 +25,7 @@ angular.module('conf.technique', [])
             }
         }
 
-        vm.information = {
-            available: device.available,
-            platform: device.platform,
-            version: device.version,
-            uuid: device.uuid,
-            cordova: device.cordova,
-            model: device.model,
-            manufacturer: device.manufacturer,
-            connection: checkConnection(navigator.connection.type)
-        };
+        vm.information = $cordovaDevice.getDevice();
+        vm.information.connection = checkConnection($cordovaNetwork.getNetwork());
 
     });

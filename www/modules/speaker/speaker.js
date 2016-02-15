@@ -1,4 +1,4 @@
-angular.module('conf.speaker',[])
+angular.module('conf.speaker', ['ngCordova'])
     .controller('speakerController', ['$http', '$sce', '$filter', function ($http, $sce, $filter) {
         var vm = this;
 

@@ -1,4 +1,4 @@
-angular.module('conf.session.detail', [])
+angular.module('conf.session')
     .controller('sessionDetailController', function () {
         var vm = this;
 

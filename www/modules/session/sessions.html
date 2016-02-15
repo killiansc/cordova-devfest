@@ -11,7 +11,7 @@
         <ons-list-header>{{category}}</ons-list-header>
         <ons-list-item ng-repeat="session in ctrl.getSessions(key)" ng-click="ctrl.showDetails(session)"
                        modifier="chevron">
-            <span class="session-title">{{session.title | limitTo:40}}...</span>
+            <span class="session-title">{{session.title | limitTo:30}}...</span>
         </ons-list-item>
     </ons-list>
 </ons-page>

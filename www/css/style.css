@@ -109,3 +109,8 @@
     text-decoration: none;
     color: inherit;
 }
+
+.technique-key {
+    text-transform: capitalize;
+    font-weight: bold;
+}

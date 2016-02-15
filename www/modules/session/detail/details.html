@@ -1,0 +1,19 @@
+<ons-page ng-controller="sessionDetailController as ctrl">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Back</ons-back-button>
+        </div>
+        <div class="center">Session</div>
+    </ons-toolbar>
+
+    <h2>{{ctrl.session.title}}</h2>
+
+    <div>Salle : <span>{{ctrl.session.confRoom}}</span></div>
+
+    <h2 ng-repeat="speaker in ctrl.session.speakers">
+        <span>@{{speaker}} </span>
+    </h2>
+
+    <div>{{ctrl.session.desc}}</div>
+
+</ons-page>

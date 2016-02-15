@@ -3,11 +3,12 @@ angular.module('conf.speaker')
         var vm = this;
 
         vm.speaker = app.navi.getCurrentPage().options.speaker;
-        vm.isContact = false;
-        vm.contact = getContact();
+        vm.isContactChecked = false;
+        vm.contactForDevice = getContact();
+        vm.contactFromDevice = {};
 
         vm.renderHtml = renderHtml;
-        vm.addContact = addContact;
+        vm.toggleContact = toggleContact;
         vm.deleteContact = deleteContact;
 
         $cordovaContacts.find({
@@ -15,10 +16,10 @@ angular.module('conf.speaker')
             fields: ['nickname']
         }).then(function (contacts) {
             if (contacts.length === 0) {
-                vm.isContact = false;
+                vm.isContactChecked = false;
             } else {
-                vm.isContact = true;
-                vm.contact = contacts[0];
+                vm.isContactChecked = true;
+                vm.contactFromDevice = contacts[0];
             }
         });
 
@@ -28,25 +29,32 @@ angular.module('conf.speaker')
             return $sce.trustAsHtml(htmlCode);
         }
 
+        function toggleContact() {
+            if (vm.isContactChecked) {
+                addContact();
+            } else {
+                deleteContact();
+            }
+        }
+
         function addContact() {
-            $cordovaContacts.save(vm.contact).then(
+            $cordovaContacts.save(vm.contactForDevice).then(
                 function (result) {
-                    vm.isContact = true;
-                    vm.contact = result;
+                    vm.contactFromDevice = result;
                 },
                 function (error) {
-                    vm.isContact = false;
+                    vm.isContactChecked = false;
                 }
             );
         }
 
         function deleteContact() {
-            $cordovaContacts.remove(vm.contact).then(
+            $cordovaContacts.remove(vm.contactFromDevice).then(
                 function (result) {
-                    vm.isContact = false;
+                    vm.contactFromDevice = undefined;
                 },
                 function (error) {
-                    vm.isContact = true;
+                    vm.isContactChecked = true;
                 }
             )
         }

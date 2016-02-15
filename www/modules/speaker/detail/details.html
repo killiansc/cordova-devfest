@@ -9,8 +9,7 @@
     <ons-list modifier="inset" class="settings-list">
         <ons-list-item>
             Ajouter à mes contacts
-            <ons-switch modifier="list-item" checked ng-show="ctrl.isContact" ng-click="ctrl.deleteContact()"></ons-switch>
-            <ons-switch modifier="list-item" ng-hide="ctrl.isContact" ng-click="ctrl.addContact()"></ons-switch>
+            <ons-switch modifier="list-item" ng-model="ctrl.isContactChecked" ng-click="ctrl.toggleContact()"></ons-switch>
         </ons-list-item>
     </ons-list>
 

@@ -4,7 +4,7 @@ angular.module('conf.speaker')
 
         vm.speaker = app.navi.getCurrentPage().options.speaker;
         vm.isContactChecked = false;
-        vm.contactForDevice = getContact();
+        vm.contactForDevice = getContactForDevice();
         vm.contactFromDevice = {};
 
         vm.renderHtml = renderHtml;
@@ -59,24 +59,14 @@ angular.module('conf.speaker')
             )
         }
 
-        function getContact() {
-            var name = new ContactName();
-            name.givenName = vm.speaker.firstname;
-            name.familyName = vm.speaker.lastname;
-            var urls = [];
-            vm.speaker.socials.forEach(function (social) {
-                urls.push(new ContactField(social.class, social.link));
-            });
-            var company = new ContactOrganization();
-            company.type = "Company";
-            company.pref = true;
-            company.name = vm.speaker.company;
+        function getContactForDevice() {
+            var name = vm.speaker.firstname + ' ' + vm.speaker.lastname;
             return {
                 nickname: vm.speaker.id,
-                displayName: vm.speaker.firstname + ' ' + vm.speaker.lastname,
-                name: name,
-                urls: urls,
-                organizations: [company],
+                displayName: name,
+                name: new ContactName(name, vm.speaker.lastname, vm.speaker.firstname),
+                urls: vm.speaker.socials.map(function(social) { return new ContactField('url', social.link); }),
+                organizations: [new ContactOrganization(true, "company", vm.speaker.company)],
                 note: vm.speaker.about
             }
         }

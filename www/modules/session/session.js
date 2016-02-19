@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('conf.session', [])
-        .controller('sessionController', ['DataService', function (DataService) {
+        .controller('sessionController', ['DataService', '$cordovaToast', function (DataService, $cordovaToast) {
 
             var vm = this;
 
@@ -12,10 +12,14 @@
             vm.getSessions = getSessions;
             vm.showDetails = showDetails;
 
-            DataService.getSessions().then(function (sessions) {
-                vm.sessions = sessions.values;
-                vm.categories = sessions.categories;
-            });
+            DataService.getSessions().then(
+                function (sessions) {
+                    vm.sessions = sessions.values;
+                    vm.categories = sessions.categories;
+                },
+                function (error) {
+                    $cordovaToast.showLongBottom('Une erreur est survenue...');
+                });
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

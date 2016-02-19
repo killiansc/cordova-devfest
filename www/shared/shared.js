@@ -81,34 +81,54 @@
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             function getData() {
-                var conferences = localStorage.getItem('conferences');
+                var conferences = localStorage.getItem('programmation');
                 if (conferences) {
                     return $q(function (resolve, reject) {
                         resolve(JSON.parse(conferences));
                     });
                 } else {
-                    return $http.get('https://devfest2015.gdgnantes.com/assets/prog.json').then(function (response) {
-                        localStorage.setItem('conferences', JSON.stringify(response.data));
-                        return response.data;
-                    });
+                    return $http.get('https://devfest2015.gdgnantes.com/assets/progs.json').then(
+                        function (response) {
+                            localStorage.setItem('programmation', JSON.stringify(response.data));
+                            return response.data;
+                        },
+                        function (error) {
+                            return $http.get('data/devfest-2015.json').then(
+                                function (response) {
+                                    localStorage.setItem('programmation', JSON.stringify(response.data));
+                                    return response.data;
+                                },
+                                function (error) {
+                                    throw error;
+                                }
+                            )
+                        });
                 }
             }
 
             function getSpeakers() {
-                return getData().then(function (conferences) {
-                    return {
-                        values: conferences.speakers
-                    };
-                });
+                return getData().then(
+                    function (programmation) {
+                        return {
+                            values: programmation.speakers
+                        };
+                    },
+                    function (error) {
+                        throw error;
+                    });
             }
 
             function getSessions() {
-                return getData().then(function (conferences) {
-                    return {
-                        values: conferences.sessions,
-                        categories: conferences.categories
-                    };
-                });
+                return getData().then(
+                    function (programmation) {
+                        return {
+                            values: programmation.sessions,
+                            categories: programmation.categories
+                        };
+                    },
+                    function (error) {
+                        throw error;
+                    });
             }
 
         }]);

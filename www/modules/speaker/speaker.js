@@ -1,26 +1,31 @@
-angular.module('conf.speaker', ['ngCordova'])
-    .controller('speakerController', ['$sce', '$filter', 'DataService', function ($sce, $filter, DataService) {
-        var vm = this;
+(function () {
+    'use strict';
 
-        vm.speakers = [];
+    angular.module('conf.speaker', ['ngCordova'])
+        .controller('speakerController', ['$sce', '$filter', 'DataService', function ($sce, $filter, DataService) {
+            var vm = this;
 
-        vm.showDetails = showDetails;
-        vm.renderHtml = renderHtml;
+            vm.speakers = [];
 
-        DataService.getSpeakers().then(function (speakers) {
-            vm.speakers = speakers.values;
-        });
+            vm.showDetails = showDetails;
+            vm.renderHtml = renderHtml;
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        function renderHtml(htmlCode) {
-            return $sce.trustAsHtml($filter('limitTo')(htmlCode, 100));
-        }
-
-        function showDetails(speaker) {
-            app.navi.pushPage('modules/speaker/detail/details.html', {
-                speaker: speaker
+            DataService.getSpeakers().then(function (speakers) {
+                vm.speakers = speakers.values;
             });
-        }
 
-    }]);
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            function renderHtml(htmlCode) {
+                return $sce.trustAsHtml($filter('limitTo')(htmlCode, 100));
+            }
+
+            function showDetails(speaker) {
+                app.navi.pushPage('modules/speaker/detail/details.html', {
+                    speaker: speaker
+                });
+            }
+
+        }]);
+
+})();

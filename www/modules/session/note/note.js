@@ -1,26 +1,32 @@
-angular.module('conf.session')
-    .controller('sessionNoteController', ['SQLiteService', '$cordovaToast', function (SQLiteService, $cordovaToast) {
-        var vm = this;
+(function () {
+    'use strict';
 
-        vm.session = app.navi.getCurrentPage().options.session;
-        vm.notes = '';
-        vm.save = save;
+    angular.module('conf.session')
+        .controller('sessionNoteController', ['SQLiteService', '$cordovaToast', function (SQLiteService, $cordovaToast) {
 
-        SQLiteService.getNotes(vm.session.id).then(function (notes) {
-            vm.notes = notes;
-        });
+            var vm = this;
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            vm.session = app.navi.getCurrentPage().options.session;
+            vm.notes = '';
+            vm.save = save;
 
-        function save() {
-            SQLiteService.upsert(vm.session.id, vm.notes).then(
-                function (response) {
-                    $cordovaToast.showLongBottom('Notes saved!');
-                },
-                function (error) {
-                    $cordovaToast.showLongBottom('Notes could not be saved!');
-                }
-            );
-        }
+            SQLiteService.getNotes(vm.session.id).then(function (notes) {
+                vm.notes = notes;
+            });
 
-    }]);
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            function save() {
+                SQLiteService.upsert(vm.session.id, vm.notes).then(
+                    function (response) {
+                        $cordovaToast.showLongBottom('Notes saved!');
+                    },
+                    function (error) {
+                        $cordovaToast.showLongBottom('Notes could not be saved!');
+                    }
+                );
+            }
+
+        }]);
+
+})();

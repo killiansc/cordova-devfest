@@ -1,22 +1,28 @@
-angular.module('conf.session')
-    .controller('sessionDetailController', ['$sce', function ($sce) {
-        var vm = this;
+(function () {
+    'use strict';
 
-        vm.session = app.navi.getCurrentPage().options.session;
+    angular.module('conf.session')
+        .controller('sessionDetailController', ['$sce', function ($sce) {
 
-        vm.showNotes = showNotes;
-        vm.renderHtml = renderHtml;
+            var vm = this;
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            vm.session = app.navi.getCurrentPage().options.session;
 
-        function renderHtml(htmlCode) {
-            return $sce.trustAsHtml(htmlCode);
-        }
+            vm.showNotes = showNotes;
+            vm.renderHtml = renderHtml;
 
-        function showNotes(session) {
-            app.navi.pushPage('modules/session/note/notes.html', {
-                session: session
-            });
-        }
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    }]);
+            function renderHtml(htmlCode) {
+                return $sce.trustAsHtml(htmlCode);
+            }
+
+            function showNotes(session) {
+                app.navi.pushPage('modules/session/note/notes.html', {
+                    session: session
+                });
+            }
+
+        }]);
+
+})();

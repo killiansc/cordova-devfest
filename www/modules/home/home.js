@@ -1,27 +1,33 @@
-angular.module('conf.home', [])
-    .controller('homeController', function(){
-        var vm = this;
+(function () {
+    'use strict';
 
-        vm.title = 'Application Conference';
-        vm.goToSessions = goToSessions;
-        vm.goToSpeakers = goToSpeakers;
+    angular.module('conf.home', [])
+        .controller('homeController', function(){
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            var vm = this;
 
-        function pushPage(pageLocation) {
-            app.navi.pushPage(pageLocation);
-            app.menu.closeMenu();
-        }
+            vm.title = 'Application Conference';
+            vm.goToSessions = goToSessions;
+            vm.goToSpeakers = goToSpeakers;
 
-        function goToSessions() {
-            pushPage('modules/session/sessions.html');
-        }
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        function goToSpeakers() {
-            pushPage('modules/speaker/speakers.html');
-        }
+            function pushPage(pageLocation) {
+                app.navi.pushPage(pageLocation);
+                app.menu.closeMenu();
+            }
 
-    });
+            function goToSessions() {
+                pushPage('modules/session/sessions.html');
+            }
+
+            function goToSpeakers() {
+                pushPage('modules/speaker/speakers.html');
+            }
+
+        });
+
+})();
 
 
 

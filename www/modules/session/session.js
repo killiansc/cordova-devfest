@@ -1,30 +1,36 @@
-angular.module('conf.session', [])
-    .controller('sessionController', ['DataService', function (DataService) {
-        var vm = this;
+(function () {
+    'use strict';
 
-        vm.sessions = [];
-        vm.categories = [];
+    angular.module('conf.session', [])
+        .controller('sessionController', ['DataService', function (DataService) {
 
-        vm.getSessions = getSessions;
-        vm.showDetails = showDetails;
+            var vm = this;
 
-        DataService.getSessions().then(function (sessions) {
-            vm.sessions = sessions.values;
-            vm.categories = sessions.categories;
-        });
+            vm.sessions = [];
+            vm.categories = [];
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            vm.getSessions = getSessions;
+            vm.showDetails = showDetails;
 
-        function getSessions(category) {
-            return vm.sessions.filter(function (session) {
-                return session.type === category;
+            DataService.getSessions().then(function (sessions) {
+                vm.sessions = sessions.values;
+                vm.categories = sessions.categories;
             });
-        }
 
-        function showDetails(session) {
-            app.navi.pushPage('modules/session/detail/details.html', {
-                session: session
-            });
-        }
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    }]);
+            function getSessions(category) {
+                return vm.sessions.filter(function (session) {
+                    return session.type === category;
+                });
+            }
+
+            function showDetails(session) {
+                app.navi.pushPage('modules/session/detail/details.html', {
+                    session: session
+                });
+            }
+
+        }]);
+
+})();

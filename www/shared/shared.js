@@ -22,6 +22,36 @@ angular.module('conf.shared', [])
             pushPage('modules/about/about.html');
         };
 
-    });
+    })
+    .factory('SQLiteService', ['$cordovaSQLite', function ($cordovaSQLite) {
 
-// TODO - Ajouter ici des services transverses à tous les modules
+        var db;
+
+        return {
+            getNotes: getNotes,
+            upsert: upsert
+        };
+
+        function openDb() {
+            db = $cordovaSQLite.openDB({name: 'conference.db'});
+            $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS NOTES (sessionId text primary key, comment text)');
+        }
+
+        function getNotes(sessionId) {
+            if (!db) openDb();
+            return $cordovaSQLite.execute(db, 'SELECT comment FROM NOTES WHERE sessionId=?', [sessionId]).then(
+                function (response) {
+                    if (response.rows.length > 0) {
+                        return response.rows.item(0).comment;
+                    }
+                    return '';
+                }
+            );
+        }
+
+        function upsert(sessionId, notes) {
+            if (!db) openDb();
+            return $cordovaSQLite.execute(db, 'INSERT OR REPLACE INTO NOTES (sessionId, comment) VALUES (?, ?)', [sessionId, notes]);
+        }
+
+    }]);

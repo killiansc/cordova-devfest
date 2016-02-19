@@ -1,0 +1,15 @@
+<ons-page ng-controller="sessionNoteController as ctrl">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Retour</ons-back-button>
+        </div>
+        <div class="center">Mes notes</div>
+    </ons-toolbar>
+
+    <h2>{{ctrl.session.title}}</h2>
+
+    <ons-button modifier="large" ng-click="ctrl.save()">Enregistrer</ons-button>
+
+    <textarea class="textarea textarea--transparent" placeholder="Mes notes" ng-model="ctrl.notes"></textarea>
+
+</ons-page>

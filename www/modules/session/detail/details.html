@@ -1,7 +1,7 @@
 <ons-page ng-controller="sessionDetailController as ctrl">
     <ons-toolbar>
         <div class="left">
-            <ons-back-button>Back</ons-back-button>
+            <ons-back-button>Retour</ons-back-button>
         </div>
         <div class="center">Session</div>
     </ons-toolbar>
@@ -11,9 +11,11 @@
     <div>Salle : <span>{{ctrl.session.confRoom}}</span></div>
 
     <h2 ng-repeat="speaker in ctrl.session.speakers">
-        <span>@{{speaker}} </span>
+        <span>@{{speaker}}</span>
     </h2>
 
-    <div>{{ctrl.session.desc}}</div>
+    <ons-button modifier="large" ng-click="ctrl.showNotes(ctrl.session)">Mes notes</ons-button>
+
+    <div ng-bind-html="ctrl.renderHtml(ctrl.session.desc)"></div>
 
 </ons-page>

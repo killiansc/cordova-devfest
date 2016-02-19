@@ -87,7 +87,7 @@
                         resolve(JSON.parse(conferences));
                     });
                 } else {
-                    return $http.get('https://devfest2015.gdgnantes.com/assets/progs.json').then(
+                    return $http.get('https://devfest2015.gdgnantes.com/assets/prog.json').then(
                         function (response) {
                             localStorage.setItem('programmation', JSON.stringify(response.data));
                             return response.data;

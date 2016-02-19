@@ -137,9 +137,13 @@
     color: rgba(24,103,194,0.81);
 }
 
-.image-note {
+.image-note, .audio, .video {
     width: 100%;
     text-align: center;
     margin-top: 10px;
     height: auto;
+}
+
+.audio {
+    margin-top: 30px;
 }

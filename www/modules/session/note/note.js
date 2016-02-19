@@ -2,16 +2,20 @@
     'use strict';
 
     angular.module('conf.session')
-        .controller('sessionNoteController', ['SQLiteService', '$cordovaToast', '$cordovaCamera',
-            function (SQLiteService, $cordovaToast, $cordovaCamera) {
+        .controller('sessionNoteController', ['SQLiteService', '$cordovaToast', '$cordovaCamera', '$cordovaCapture',
+            function (SQLiteService, $cordovaToast, $cordovaCamera, $cordovaCapture) {
 
                 var vm = this;
 
                 vm.session = app.navi.getCurrentPage().options.session;
                 vm.notes = '';
                 vm.images = [];
+                vm.audios = [];
+
                 vm.save = save;
                 vm.pickPhoto = pickPhoto;
+                vm.recordAudio = recordAudio;
+                vm.recordVideo = recordVideo;
 
                 SQLiteService.getNotes(vm.session.id).then(
                     function (notes) {
@@ -28,6 +32,24 @@
                     },
                     function (error) {
                         $cordovaToast.showLongBottom('Erreur de récupération des images');
+                    }
+                );
+
+                SQLiteService.getAudios(vm.session.id).then(
+                    function (audios) {
+                        vm.audios = audios;
+                    },
+                    function (error) {
+                        $cordovaToast.showLongBottom('Erreur de récupération des audios');
+                    }
+                );
+
+                SQLiteService.getVideos(vm.session.id).then(
+                    function (videos) {
+                        vm.videos = videos;
+                    },
+                    function (error) {
+                        $cordovaToast.showLongBottom('Erreur de récupération des vidéos');
                     }
                 );
 
@@ -58,7 +80,6 @@
                                     $cordovaToast.showLongBottom('Photo sauvegardée !');
                                 },
                                 function (error) {
-                                    console.log(error);
                                     $cordovaToast.showLongBottom('Photo non sauvegardée...');
                                 }
                             );
@@ -66,7 +87,53 @@
                         function (error) {
                             $cordovaToast.showLongBottom('Photo non récupérée...');
                         }
-                    )
+                    );
+                }
+
+                function recordAudio() {
+                    $cordovaCapture.captureAudio().then(
+                        function (mediaFiles) {
+                            var path;
+                            mediaFiles.forEach(function (audioData) {
+                                path = audioData.fullPath;
+                                vm.audios.push(path);
+                                SQLiteService.saveAudio(vm.session.id, path).then(
+                                    function (response) {
+                                        $cordovaToast.showLongBottom('Audio sauvegardé !');
+                                    },
+                                    function (error) {
+                                        $cordovaToast.showLongBottom('Audio non sauvegardé...');
+                                    }
+                                );
+                            });
+                        },
+                        function (error) {
+                            $cordovaToast.showLongBottom('Audio non récupéré...');
+                        }
+                    );
+                }
+
+                function recordVideo() {
+                    $cordovaCapture.captureVideo().then(
+                        function (mediaFiles) {
+                            var path;
+                            mediaFiles.forEach(function (videoData) {
+                                path = videoData.fullPath;
+                                vm.videos.push(path);
+                                SQLiteService.saveVideo(vm.session.id, path).then(
+                                    function (response) {
+                                        $cordovaToast.showLongBottom('Video sauvegardée !');
+                                    },
+                                    function (error) {
+                                        $cordovaToast.showLongBottom('Video non sauvegardée...');
+                                    }
+                                );
+                            });
+                        },
+                        function (error) {
+                            $cordovaToast.showLongBottom('Vidéo non récupéré...');
+                        }
+                    );
                 }
 
             }]);

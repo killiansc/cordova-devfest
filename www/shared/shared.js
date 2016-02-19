@@ -39,7 +39,11 @@
                 getNotes: getNotes,
                 saveNotes: saveNotes,
                 getImages: getImages,
-                saveImage: saveImage
+                saveImage: saveImage,
+                getAudios: getAudios,
+                saveAudio: saveAudio,
+                getVideos: getVideos,
+                saveVideo: saveVideo
             };
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +52,8 @@
                 var db = $cordovaSQLite.openDB({name: 'conference.db'});
                 $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS NOTES (sessionId text primary key, comment text)');
                 $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS IMAGES (id integer primary key autoincrement, sessionId text, image text)');
+                $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS AUDIOS (id integer primary key autoincrement, sessionId text, audio text)');
+                $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS VIDEOS (id integer primary key autoincrement, sessionId text, video text)');
                 return db;
             }
 
@@ -82,12 +88,52 @@
                 );
             }
 
+            function getAudios(sessionId) {
+                var query = 'SELECT audio FROM AUDIOS WHERE sessionId=?';
+                return $cordovaSQLite.execute(db, query, [sessionId]).then(
+                    function (response) {
+                        var audios = [];
+                        for (var i=0; i<response.rows.length; i++) {
+                            audios.push(response.rows.item(i).audio);
+                        }
+                        return audios;
+                    },
+                    function (error) {
+                        throw error;
+                    }
+                );
+            }
+
+            function getVideos(sessionId) {
+                var query = 'SELECT video FROM VIDEOS WHERE sessionId=?';
+                return $cordovaSQLite.execute(db, query, [sessionId]).then(
+                    function (response) {
+                        var videos = [];
+                        for (var i=0; i<response.rows.length; i++) {
+                            videos.push(response.rows.item(i).video);
+                        }
+                        return videos;
+                    },
+                    function (error) {
+                        throw error;
+                    }
+                );
+            }
+
             function saveNotes(sessionId, notes) {
                 return $cordovaSQLite.execute(db, 'INSERT OR REPLACE INTO NOTES (sessionId, comment) VALUES (?, ?)', [sessionId, notes]);
             }
 
             function saveImage(sessionId, imageData) {
                 return $cordovaSQLite.execute(db, 'INSERT OR REPLACE INTO IMAGES (sessionId, image) VALUES (?, ?)', [sessionId, imageData]);
+            }
+
+            function saveAudio(sessionId, audioData) {
+                return $cordovaSQLite.execute(db, 'INSERT OR REPLACE INTO AUDIOS (sessionId, audio) VALUES (?, ?)', [sessionId, audioData]);
+            }
+
+            function saveVideo(sessionId, videoData) {
+                return $cordovaSQLite.execute(db, 'INSERT OR REPLACE INTO VIDEOS (sessionId, video) VALUES (?, ?)', [sessionId, videoData]);
             }
 
         }])

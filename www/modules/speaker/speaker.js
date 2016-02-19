@@ -2,36 +2,36 @@
     'use strict';
 
     angular.module('conf.speaker', ['ngCordova'])
-        .controller('speakerController', ['$sce', '$filter', 'DataService', '$cordovaToast',
-            function ($sce, $filter, DataService, $cordovaToast) {
+        .controller('speakerController', ['$sce', '$filter', 'ProgrammationService', '$cordovaToast',
+            function ($sce, $filter, ProgrammationService, $cordovaToast) {
 
-            var vm = this;
+                var vm = this;
 
-            vm.speakers = [];
+                vm.speakers = [];
 
-            vm.showDetails = showDetails;
-            vm.renderHtml = renderHtml;
+                vm.showDetails = showDetails;
+                vm.renderHtml = renderHtml;
 
-            DataService.getSpeakers().then(
-                function (speakers) {
-                    vm.speakers = speakers.values;
-                },
-                function (error) {
-                    $cordovaToast.showLongBottom('Une erreur est survenue...');
-                });
+                ProgrammationService.getSpeakers().then(
+                    function (speakers) {
+                        vm.speakers = speakers.values;
+                    },
+                    function (error) {
+                        $cordovaToast.showLongBottom('Une erreur est survenue...');
+                    });
 
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            function renderHtml(htmlCode) {
-                return $sce.trustAsHtml($filter('limitTo')(htmlCode, 100));
-            }
+                function renderHtml(htmlCode) {
+                    return $sce.trustAsHtml($filter('limitTo')(htmlCode, 100));
+                }
 
-            function showDetails(speaker) {
-                app.navi.pushPage('modules/speaker/detail/details.html', {
-                    speaker: speaker
-                });
-            }
+                function showDetails(speaker) {
+                    app.navi.pushPage('modules/speaker/detail/details.html', {
+                        speaker: speaker
+                    });
+                }
 
-        }]);
+            }]);
 
 })();

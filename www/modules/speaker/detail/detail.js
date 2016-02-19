@@ -4,6 +4,7 @@
     angular.module('conf.speaker')
         .controller('speakerDetailController', ['$sce', '$cordovaContacts', '$cordovaToast',
             function ($sce, $cordovaContacts, $cordovaToast) {
+
                 var vm = this;
 
                 vm.speaker = app.navi.getCurrentPage().options.speaker;
@@ -27,7 +28,7 @@
                     }
                 });
 
-                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                 function renderHtml(htmlCode) {
                     return $sce.trustAsHtml(htmlCode);

@@ -28,9 +28,9 @@ angular.module('conf.shared', [])
     // SQLITE SERVICE //////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    .factory('SQLiteService', ['$cordovaSQLite', function ($cordovaSQLite) {
+    .service('SQLiteService', ['$cordovaSQLite', function ($cordovaSQLite) {
 
-        var db;
+        var db = openDb();
 
         return {
             getNotes: getNotes,
@@ -40,12 +40,12 @@ angular.module('conf.shared', [])
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function openDb() {
-            db = $cordovaSQLite.openDB({name: 'conference.db'});
+            var db = $cordovaSQLite.openDB({name: 'conference.db'});
             $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS NOTES (sessionId text primary key, comment text)');
+            return db;
         }
 
         function getNotes(sessionId) {
-            if (!db) openDb();
             return $cordovaSQLite.execute(db, 'SELECT comment FROM NOTES WHERE sessionId=?', [sessionId]).then(
                 function (response) {
                     if (response.rows.length > 0) {
@@ -57,7 +57,6 @@ angular.module('conf.shared', [])
         }
 
         function upsert(sessionId, notes) {
-            if (!db) openDb();
             return $cordovaSQLite.execute(db, 'INSERT OR REPLACE INTO NOTES (sessionId, comment) VALUES (?, ?)', [sessionId, notes]);
         }
 
@@ -67,7 +66,7 @@ angular.module('conf.shared', [])
     // DATA SERVICE ////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    .factory('DataService', ['$http', '$q', function ($http, $q) {
+    .service('DataService', ['$http', '$q', function ($http, $q) {
 
         var data;
 

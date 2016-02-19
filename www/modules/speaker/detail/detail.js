@@ -46,11 +46,11 @@
                     $cordovaContacts.save(vm.contactForDevice).then(
                         function (result) {
                             vm.contactFromDevice = result;
-                            $cordovaToast.showLongBottom('Presenter added to your contacts!');
+                            $cordovaToast.showLongBottom('Présentateur ajouté aux contacts');
                         },
                         function (error) {
                             vm.isContactChecked = false;
-                            $cordovaToast.showLongBottom('Presenter could not be added!');
+                            $cordovaToast.showLongBottom('Présentateur non enregistré...');
                         }
                     );
                 }
@@ -59,11 +59,11 @@
                     $cordovaContacts.remove(vm.contactFromDevice).then(
                         function (result) {
                             vm.contactFromDevice = undefined;
-                            $cordovaToast.showLongBottom('Presenter removed from your contacts!');
+                            $cordovaToast.showLongBottom('Présentateur supprimé des contacts');
                         },
                         function (error) {
                             vm.isContactChecked = true;
-                            $cordovaToast.showLongBottom('Presenter could not be removed!');
+                            $cordovaToast.showLongBottom('Présentateur non supprimé...');
                         }
                     )
                 }

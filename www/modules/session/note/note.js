@@ -19,10 +19,10 @@
             function save() {
                 SQLiteService.upsert(vm.session.id, vm.notes).then(
                     function (response) {
-                        $cordovaToast.showLongBottom('Notes saved!');
+                        $cordovaToast.showLongBottom('Note enregistrée !');
                     },
                     function (error) {
-                        $cordovaToast.showLongBottom('Notes could not be saved!');
+                        $cordovaToast.showLongBottom('Note non enregistrée...');
                     }
                 );
             }

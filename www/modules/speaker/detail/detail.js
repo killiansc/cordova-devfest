@@ -1,6 +1,6 @@
 angular.module('conf.speaker')
-    .controller('speakerDetailController', ['$sce', '$http', '$cordovaContacts', '$cordovaToast', '$cordovaFile',
-        function ($sce, $http, $cordovaContacts, $cordovaToast, $cordovaFile) {
+    .controller('speakerDetailController', ['$sce', '$cordovaContacts', '$cordovaToast',
+        function ($sce, $cordovaContacts, $cordovaToast) {
             var vm = this;
 
             vm.speaker = app.navi.getCurrentPage().options.speaker;

@@ -118,3 +118,13 @@
 .list--inset {
     margin: 0;
 }
+
+.speaker {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.textarea {
+    width: 100%;
+    height: 100%
+}

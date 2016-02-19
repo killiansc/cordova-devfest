@@ -11,7 +11,7 @@
     <div>Salle : <span>{{ctrl.session.confRoom}}</span></div>
 
     <span ng-repeat="speaker in ctrl.session.speakers">
-        <h2>@{{speaker}}</h2>
+        <h3 class="speaker">@{{speaker}}</h3>
     </span>
 
     <ons-button modifier="large" ng-click="ctrl.showNotes(ctrl.session)">Mes notes</ons-button>

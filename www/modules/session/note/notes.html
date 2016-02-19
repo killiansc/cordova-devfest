@@ -6,10 +6,10 @@
         <div class="center">Mes notes</div>
     </ons-toolbar>
 
-    <h2>{{ctrl.session.title}}</h2>
+    <h3>{{ctrl.session.title}}</h3>
 
     <ons-button modifier="large" ng-click="ctrl.save()">Enregistrer</ons-button>
 
-    <textarea class="textarea textarea--transparent" placeholder="Mes notes" ng-model="ctrl.notes"></textarea>
+    <textarea class="textarea" rows="5" placeholder="Mes notes" ng-model="ctrl.notes"></textarea>
 
 </ons-page>

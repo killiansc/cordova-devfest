@@ -7,7 +7,6 @@ angular.module('conf.session')
         vm.save = save;
 
         SQLiteService.getNotes(vm.session.id).then(function (notes) {
-            console.log('notes: ' + notes);
             vm.notes = notes;
         });
 

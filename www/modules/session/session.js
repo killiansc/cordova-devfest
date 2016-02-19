@@ -5,21 +5,26 @@ angular.module('conf.session', [])
         vm.sessions = [];
         vm.categories = [];
 
+        vm.getSessions = getSessions;
+        vm.showDetails = showDetails;
+
         $http.get('data/devfest-2015.json').then(function (response) {
             vm.sessions = response.data.sessions;
             vm.categories = response.data.categories;
         });
 
-        vm.getSessions = function getSessions(category) {
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function getSessions(category) {
             return vm.sessions.filter(function (session) {
                 return session.type === category;
             });
-        };
+        }
 
-        vm.showDetails = function showDetails(session) {
+        function showDetails(session) {
             app.navi.pushPage('modules/session/detail/details.html', {
                 session: session
             });
-        };
+        }
 
     }]);

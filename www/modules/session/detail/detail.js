@@ -4,14 +4,19 @@ angular.module('conf.session')
 
         vm.session = app.navi.getCurrentPage().options.session;
 
-        vm.showNotes = function showNotes(session) {
+        vm.showNotes = showNotes;
+        vm.renderHtml = renderHtml;
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function renderHtml(htmlCode) {
+            return $sce.trustAsHtml(htmlCode);
+        }
+
+        function showNotes(session) {
             app.navi.pushPage('modules/session/note/notes.html', {
                 session: session
             });
-        };
-
-        vm.renderHtml = function renderHtml(htmlCode) {
-            return $sce.trustAsHtml(htmlCode);
-        };
+        }
 
     }]);

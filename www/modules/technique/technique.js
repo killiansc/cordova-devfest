@@ -2,6 +2,11 @@ angular.module('conf.technique', ['ngCordova'])
     .controller('techController', function ($cordovaDevice, $cordovaNetwork) {
         var vm = this;
 
+        vm.information = $cordovaDevice.getDevice();
+        vm.information.connection = checkConnection($cordovaNetwork.getNetwork());
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         function checkConnection(connection) {
             switch (connection) {
                 case Connection.UNKNOWN:
@@ -24,8 +29,5 @@ angular.module('conf.technique', ['ngCordova'])
                     return 'No network';
             }
         }
-
-        vm.information = $cordovaDevice.getDevice();
-        vm.information.connection = checkConnection($cordovaNetwork.getNetwork());
 
     });

@@ -1,14 +1,25 @@
 angular.module('conf.home', [])
     .controller('homeController', function(){
-        this.title = 'Application Conference';
+        var vm = this;
 
-        var pushPage = function(pageLocation) {
+        vm.title = 'Application Conference';
+        vm.goToSessions = goToSessions;
+        vm.goToSpeakers = goToSpeakers;
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function pushPage(pageLocation) {
             app.navi.pushPage(pageLocation);
             app.menu.closeMenu();
-        };
+        }
 
-        this.goToSessions = function() { pushPage('modules/session/sessions.html');};
-        this.goToSpeakers = function() { pushPage('modules/speaker/speakers.html');};
+        function goToSessions() {
+            pushPage('modules/session/sessions.html');
+        }
+
+        function goToSpeakers() {
+            pushPage('modules/speaker/speakers.html');
+        }
 
     });
 

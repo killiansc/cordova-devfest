@@ -10,9 +10,9 @@
 
     <div>Salle : <span>{{ctrl.session.confRoom}}</span></div>
 
-    <h2 ng-repeat="speaker in ctrl.session.speakers">
-        <span>@{{speaker}}</span>
-    </h2>
+    <span ng-repeat="speaker in ctrl.session.speakers">
+        <h2>@{{speaker}}</h2>
+    </span>
 
     <ons-button modifier="large" ng-click="ctrl.showNotes(ctrl.session)">Mes notes</ons-button>
 

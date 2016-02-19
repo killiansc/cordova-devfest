@@ -1,5 +1,5 @@
 angular.module('conf.speaker', ['ngCordova'])
-    .controller('speakerController', ['$http', '$sce', '$filter', function ($http, $sce, $filter) {
+    .controller('speakerController', ['$sce', '$filter', 'DataService', function ($sce, $filter, DataService) {
         var vm = this;
 
         vm.speakers = [];
@@ -7,12 +7,8 @@ angular.module('conf.speaker', ['ngCordova'])
         vm.showDetails = showDetails;
         vm.renderHtml = renderHtml;
 
-        $http.get('data/devfest-2015.json').then(function (response) {
-            vm.speakers = response.data.speakers.sort(function (a, b) {
-                if (a.firstname < b.firstname) return -1;
-                if (a.firstname > b.firstname) return 1;
-                return 0;
-            });
+        DataService.getSpeakers().then(function (speakers) {
+            vm.speakers = speakers.values;
         });
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -23,6 +23,11 @@ angular.module('conf.shared', [])
         };
 
     })
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // SQLITE SERVICE //////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     .factory('SQLiteService', ['$cordovaSQLite', function ($cordovaSQLite) {
 
         var db;
@@ -31,6 +36,8 @@ angular.module('conf.shared', [])
             getNotes: getNotes,
             upsert: upsert
         };
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function openDb() {
             db = $cordovaSQLite.openDB({name: 'conference.db'});
@@ -52,6 +59,54 @@ angular.module('conf.shared', [])
         function upsert(sessionId, notes) {
             if (!db) openDb();
             return $cordovaSQLite.execute(db, 'INSERT OR REPLACE INTO NOTES (sessionId, comment) VALUES (?, ?)', [sessionId, notes]);
+        }
+
+    }])
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DATA SERVICE ////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    .factory('DataService', ['$http', '$q', function ($http, $q) {
+
+        var data;
+
+        return {
+            getSpeakers: getSpeakers,
+            getSessions: getSessions
+        };
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function getData() {
+            var conferences = localStorage.getItem('conferences');
+            if (conferences) {
+                return $q(function (resolve, reject) {
+                    resolve(JSON.parse(conferences));
+                });
+            } else {
+                return $http.get('https://devfest2015.gdgnantes.com/assets/prog.json').then(function (response) {
+                    localStorage.setItem('conferences', JSON.stringify(response.data));
+                    return response.data;
+                });
+            }
+        }
+
+        function getSpeakers() {
+            return getData().then(function (conferences) {
+                return {
+                    values: conferences.speakers
+                };
+            });
+        }
+
+        function getSessions() {
+            return getData().then(function (conferences) {
+                return {
+                    values: conferences.sessions,
+                    categories: conferences.categories
+                };
+            });
         }
 
     }]);

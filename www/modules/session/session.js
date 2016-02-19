@@ -1,5 +1,5 @@
 angular.module('conf.session', [])
-    .controller('sessionController', ['$http', function ($http) {
+    .controller('sessionController', ['DataService', function (DataService) {
         var vm = this;
 
         vm.sessions = [];
@@ -8,9 +8,9 @@ angular.module('conf.session', [])
         vm.getSessions = getSessions;
         vm.showDetails = showDetails;
 
-        $http.get('data/devfest-2015.json').then(function (response) {
-            vm.sessions = response.data.sessions;
-            vm.categories = response.data.categories;
+        DataService.getSessions().then(function (sessions) {
+            vm.sessions = sessions.values;
+            vm.categories = sessions.categories;
         });
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

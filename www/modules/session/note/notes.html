@@ -8,8 +8,17 @@
 
     <h3>{{ctrl.session.title}}</h3>
 
+    <ons-button class="button-icon" ng-click="ctrl.pickPhoto(true)">
+        <ons-icon icon="fa-camera" size="20px" fixed-width="false"></ons-icon>
+    </ons-button>
+    <ons-button class="button-icon" ng-click="ctrl.pickPhoto(false)">
+        <ons-icon icon="fa-picture-o" size="20px" fixed-width="false"></ons-icon>
+    </ons-button>
+
     <ons-button modifier="large" ng-click="ctrl.save()">Enregistrer</ons-button>
 
     <textarea class="textarea" rows="5" placeholder="Mes notes" ng-model="ctrl.notes"></textarea>
+
+    <img ng-repeat="img in ctrl.images" ng-src="{{img}}" ng-show="ctrl.images.length > 0" class="image-note"/>
 
 </ons-page>

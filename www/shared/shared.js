@@ -37,7 +37,9 @@
 
             return {
                 getNotes: getNotes,
-                upsert: upsert
+                saveNotes: saveNotes,
+                getImages: getImages,
+                saveImage: saveImage
             };
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,22 +47,47 @@
             function openDb() {
                 var db = $cordovaSQLite.openDB({name: 'conference.db'});
                 $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS NOTES (sessionId text primary key, comment text)');
+                $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS IMAGES (id integer primary key autoincrement, sessionId text, image text)');
                 return db;
             }
 
             function getNotes(sessionId) {
-                return $cordovaSQLite.execute(db, 'SELECT comment FROM NOTES WHERE sessionId=?', [sessionId]).then(
+                var query = 'SELECT comment FROM NOTES WHERE sessionId=?';
+                return $cordovaSQLite.execute(db, query, [sessionId]).then(
                     function (response) {
                         if (response.rows.length > 0) {
                             return response.rows.item(0).comment;
                         }
                         return '';
+                    },
+                    function (error) {
+                        throw error;
                     }
                 );
             }
 
-            function upsert(sessionId, notes) {
+            function getImages(sessionId) {
+                var query = 'SELECT image FROM IMAGES WHERE sessionId=?';
+                return $cordovaSQLite.execute(db, query, [sessionId]).then(
+                    function (response) {
+                        var images = [];
+                        for (var i=0; i<response.rows.length; i++) {
+                            images.push(response.rows.item(i).image);
+                        }
+                        return images;
+                    },
+                    function (error) {
+                        throw error;
+                    }
+                );
+            }
+
+            function saveNotes(sessionId, notes) {
                 return $cordovaSQLite.execute(db, 'INSERT OR REPLACE INTO NOTES (sessionId, comment) VALUES (?, ?)', [sessionId, notes]);
+            }
+
+            function saveImage(sessionId, imageData) {
+                return $cordovaSQLite.execute(db, 'INSERT OR REPLACE INTO IMAGES (sessionId, image) VALUES (?, ?)', [sessionId, imageData]);
             }
 
         }])

@@ -158,6 +158,14 @@
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+            function sortSpeakers(speakers) {
+                return speakers.sort(function (speaker1, speaker2) {
+                    if (speaker1.firstname < speaker2.firstname) return -1;
+                    if (speaker1.firstname > speaker2.firstname) return 1;
+                    return 0;
+                });
+            }
+
             function getData() {
                 var conferences = localStorage.getItem('programmation');
                 if (conferences) {
@@ -168,6 +176,7 @@
                     return $http.get('https://devfest2015.gdgnantes.com/assets/prog.json').then(
                         function (response) {
                             var programmation = response.data;
+                            // Fix categories
                             var categories = programmation.categories;
                             categories['codelab-web'] = categories.codelabweb;
                             categories['codelab-cloud'] = categories.codelabcloud;
@@ -178,14 +187,22 @@
                             delete categories.android;
                             delete categories.decouverte;
                             programmation.categories = categories;
+                            // Sort speakers
+                            programmation.speakers = sortSpeakers(programmation.speakers);
+                            // Save to local storage
                             localStorage.setItem('programmation', JSON.stringify(programmation));
                             return programmation;
                         },
                         function (error) {
+                            // In case we can't access the file, we fallback on the local file
                             return $http.get('data/devfest-2015.json').then(
                                 function (response) {
-                                    localStorage.setItem('programmation', JSON.stringify(response.data));
-                                    return response.data;
+                                    var programmation = response.data;
+                                    // Sort speakers
+                                    programmation.speakers = sortSpeakers(programmation.speakers);
+                                    // Save to local storage
+                                    localStorage.setItem('programmation', JSON.stringify(programmation));
+                                    return programmation;
                                 },
                                 function (error) {
                                     throw error;

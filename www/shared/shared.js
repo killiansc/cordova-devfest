@@ -167,8 +167,19 @@
                 } else {
                     return $http.get('https://devfest2015.gdgnantes.com/assets/prog.json').then(
                         function (response) {
-                            localStorage.setItem('programmation', JSON.stringify(response.data));
-                            return response.data;
+                            var programmation = response.data;
+                            var categories = programmation.categories;
+                            categories['codelab-web'] = categories.codelabweb;
+                            categories['codelab-cloud'] = categories.codelabcloud;
+                            categories['mobile'] = categories.android;
+                            categories['discovery'] = categories.decouverte;
+                            delete categories.codelabweb;
+                            delete categories.codelabcloud;
+                            delete categories.android;
+                            delete categories.decouverte;
+                            programmation.categories = categories;
+                            localStorage.setItem('programmation', JSON.stringify(programmation));
+                            return programmation;
                         },
                         function (error) {
                             return $http.get('data/devfest-2015.json').then(

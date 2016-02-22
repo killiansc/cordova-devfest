@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module('conf.session')
-        .controller('sessionNoteController', ['SQLiteService', '$cordovaToast', '$cordovaCamera', '$cordovaCapture',
-            function (SQLiteService, $cordovaToast, $cordovaCamera, $cordovaCapture) {
+        .controller('sessionNoteController', ['SQLiteService', '$cordovaToast', '$cordovaCamera', '$cordovaCapture', '$cordovaActionSheet', '$cordovaSocialSharing',
+            function (SQLiteService, $cordovaToast, $cordovaCamera, $cordovaCapture, $cordovaActionSheet, $cordovaSocialSharing) {
 
                 var vm = this;
 
@@ -11,11 +11,13 @@
                 vm.notes = '';
                 vm.images = [];
                 vm.audios = [];
+                vm.videos = [];
 
                 vm.save = save;
                 vm.pickPhoto = pickPhoto;
                 vm.recordAudio = recordAudio;
                 vm.recordVideo = recordVideo;
+                vm.onPhotoClick = onPhotoClick;
 
                 SQLiteService.getNotes(vm.session.id).then(
                     function (notes) {
@@ -69,7 +71,6 @@
                 function pickPhoto(fromCamera) {
                     var options = {
                         sourceType: fromCamera ? Camera.PictureSourceType.CAMERA : Camera.PictureSourceType.PHOTOLIBRARY,
-                        encodineType: Camera.EncodingType.PNG,
                         correctOrientation: true
                     };
                     $cordovaCamera.getPicture(options).then(
@@ -85,7 +86,57 @@
                             );
                         },
                         function (error) {
-                            $cordovaToast.showLongBottom('Photo non récupérée...');
+                            $cordovaToast.showLongBottom("Aucune photo n'a été récupérée");
+                        }
+                    );
+                }
+
+                function onPhotoClick(index, image) {
+                    var options = {
+                        title: "Que faire avec l'image ?",
+                        buttonLabels: ['Partager'],
+                        addCancelButtonWithLabel: 'Annuler',
+                        androidEnableCancelButton: true,
+                        addDestructiveButtonWithLabel: 'Supprimer'
+                    };
+                    $cordovaActionSheet.show(options).then(
+                        function (btnIndex) {
+                            switch (btnIndex) {
+                                case 1:
+                                    removeImage(index, image);
+                                    break;
+                                case 2:
+                                    shareImage(image);
+                                    break;
+                                case 3:
+                                    break;
+                                default:
+                                    $cordovaToast.showLongBottom('Action inconnue lancée, hacker !');
+                            }
+                        }
+                    );
+                }
+
+                function removeImage(index, image) {
+                    vm.images.splice(index, 1);
+                    SQLiteService.removeImage(vm.session.id, image).then(
+                        function (response) {
+                            $cordovaToast.showLongBottom('Photo supprimée !');
+                        },
+                        function (error) {
+                            $cordovaToast.showLongBottom('Photo non supprimée...');
+                            vm.images.splice(index, 0, image);
+                        }
+                    );
+                }
+
+                function shareImage(image) {
+                    $cordovaSocialSharing.share(vm.notes, "Photo partagée depuis l'application Conferences !", image, '').then(
+                        function (response) {
+                            // saved
+                        },
+                        function (error) {
+                            // failed
                         }
                     );
                 }
@@ -108,7 +159,7 @@
                             });
                         },
                         function (error) {
-                            $cordovaToast.showLongBottom('Audio non récupéré...');
+                            $cordovaToast.showLongBottom("Aucun audio n'a été récupéré");
                         }
                     );
                 }
@@ -131,7 +182,7 @@
                             });
                         },
                         function (error) {
-                            $cordovaToast.showLongBottom('Vidéo non récupéré...');
+                            $cordovaToast.showLongBottom("Aucune vidéo n'a été récupérée");
                         }
                     );
                 }

@@ -30,6 +30,6 @@
     <h3 ng-show="ctrl.videos.length > 0">Vidéos</h3>
     <video ng-repeat="video in ctrl.videos" src="{{video}}" controls class="video"></video>
     <h3 ng-show="ctrl.images.length > 0">Images</h3>
-    <img ng-repeat="img in ctrl.images" ng-src="{{img}}" class="image-note"/>
+    <img ng-repeat="(index, img) in ctrl.images track by $index" ng-src="{{img}}" class="image-note" ng-click="ctrl.onPhotoClick(index, img)"/>
 
 </ons-page>

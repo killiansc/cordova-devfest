@@ -43,7 +43,8 @@
                 getAudios: getAudios,
                 saveAudio: saveAudio,
                 getVideos: getVideos,
-                saveVideo: saveVideo
+                saveVideo: saveVideo,
+                removeImage: removeImage
             };
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,6 +135,10 @@
 
             function saveVideo(sessionId, videoData) {
                 return $cordovaSQLite.execute(db, 'INSERT OR REPLACE INTO VIDEOS (sessionId, video) VALUES (?, ?)', [sessionId, videoData]);
+            }
+
+            function removeImage(sessionId, image) {
+                return $cordovaSQLite.execute(db, 'DELETE FROM IMAGES WHERE sessionId=? AND image=?', [sessionId, image]);
             }
 
         }])

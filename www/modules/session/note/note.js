@@ -131,6 +131,8 @@
                 }
 
                 function shareImage(image) {
+                    // Hack for files not starting with "file://"
+                    if (image.indexOf('file://') == -1) image = 'file://' + image;
                     $cordovaSocialSharing.share(vm.notes, "Photo partagée depuis l'application Conferences !", image, '').then(
                         function (response) {
                             // saved

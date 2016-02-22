@@ -11,16 +11,16 @@
 
             function openAuthorWebsite() {
                 var options = {
-                    location: 'yes',
+                    location: 'no',
                     clearcache: 'yes',
                     toolbar: 'no'
                 };
                 $cordovaInAppBrowser.open('http://twitter.com/ksntcrq', '_self', options).then(
                     function (result) {
-
+                        // success
                     },
                     function (error) {
-
+                        // failed
                     }
                 )
             }

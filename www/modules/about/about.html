@@ -1,4 +1,4 @@
-<ons-page ng-controller="techController as ctrl">
+<ons-page class="about" ng-controller="aboutController as ctrl">
 
     <ons-toolbar>
         <div class="left">
@@ -9,6 +9,16 @@
         <div class="center">A propos</div>
     </ons-toolbar>
 
-    <h1>Page A propos</h1>
+    <h1>Application Conferences</h1>
+    <h2>v1.0.0</h2>
+
+    <span>
+        Cette application recense les conférences et présentateurs du DevFest 2015.
+        Vous pouvez y prendre des notes pour chaque conférence !
+    </span>
+
+    <ons-tabbar position="bottom">
+        <ons-tab ng-click="ctrl.openAuthorWebsite()">Réalisé par Killian Saint cricq</ons-tab>
+    </ons-tabbar>
 
 </ons-page>

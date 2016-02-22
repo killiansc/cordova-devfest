@@ -19,6 +19,15 @@
 
         <ons-button modifier="large" ng-click="ctrl.showNotes(ctrl.session)">Mes notes</ons-button>
 
+        <p class="text-center">Comment évalueriez-vous la conférence ?</p>
+        <div class="button-bar">
+            <div ng-repeat="rate in [1,2,3,4,5]" class="button-bar__item" ng-click="ctrl.changeRate(rate)">
+                <input type="radio" name="segment-a" ng-checked="rate == ctrl.rate"/>
+                <button class="button-bar__button">{{rate}}</button>
+            </div>
+        </div>
+
+        <h3>Description</h3>
         <div ng-bind-html="ctrl.renderHtml(ctrl.session.desc)"></div>
 
     </div>

@@ -44,14 +44,16 @@
                 saveAudio: saveAudio,
                 getVideos: getVideos,
                 saveVideo: saveVideo,
-                removeImage: removeImage
+                removeImage: removeImage,
+                getRate: getRate,
+                saveRate: saveRate
             };
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             function openDb() {
                 var db = $cordovaSQLite.openDB({name: 'conference.db'});
-                $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS NOTES (sessionId text primary key, comment text)');
+                $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS NOTES (sessionId text primary key, comment text, rate integer)');
                 $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS MEDIAS (id integer primary key autoincrement, type text, sessionId text, content text)');
                 return db;
             }
@@ -73,6 +75,25 @@
 
             function saveNotes(sessionId, notes) {
                 return $cordovaSQLite.execute(db, 'INSERT OR REPLACE INTO NOTES (sessionId, comment) VALUES (?, ?)', [sessionId, notes]);
+            }
+
+            function getRate(sessionId) {
+                var query = 'SELECT rate FROM NOTES WHERE sessionId=?';
+                return $cordovaSQLite.execute(db, query, [sessionId]).then(
+                    function (response) {
+                        if (response.rows.length > 0) {
+                            return response.rows.item(0).rate;
+                        }
+                        return 0;
+                    },
+                    function (error) {
+                        throw error;
+                    }
+                )
+            }
+
+            function saveRate(sessionId, rate) {
+                return $cordovaSQLite.execute(db, 'INSERT OR REPLACE INTO NOTES (sessionId, rate) VALUES (?, ?)', [sessionId, rate]);
             }
 
             function getMedia(sessionId, type) {

@@ -155,3 +155,8 @@
 .content-padding {
     padding: 5px 10px;
 }
+
+.button-bar {
+    width: 100%;
+    margin-bottom: 10px;
+}

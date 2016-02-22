@@ -208,6 +208,7 @@
     line-height: 1.4;
 }
 
-.fa-map-marker {
+.fa-map-marker, .fa-user {
     margin-right: 4px;
+    margin-bottom: 2px;
 }

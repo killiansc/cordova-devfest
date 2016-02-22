@@ -23,6 +23,9 @@
                     <div class="plan-name">{{session.title}}</div>
 
                     <div class="plan-info">
+                        <div ng-show="session.speakers.length">
+                            <ons-icon icon="fa-user"></ons-icon> <span class="speaker" ng-repeat="speaker in session.speakers">{{speaker}}</span>
+                        </div>
                         <div>
                             <ons-icon icon="fa-map-marker"></ons-icon>{{session.confRoom}}
                         </div>

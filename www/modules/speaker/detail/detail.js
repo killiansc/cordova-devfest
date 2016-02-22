@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module('conf.speaker')
-        .controller('speakerDetailController', ['$sce', '$cordovaContacts', '$cordovaToast',
-            function ($sce, $cordovaContacts, $cordovaToast) {
+        .controller('speakerDetailController', ['$sce', '$cordovaContacts', '$cordovaToast', '$cordovaInAppBrowser',
+            function ($sce, $cordovaContacts, $cordovaToast, $cordovaInAppBrowser) {
 
                 var vm = this;
 
@@ -15,6 +15,7 @@
                 vm.renderHtml = renderHtml;
                 vm.toggleContact = toggleContact;
                 vm.deleteContact = deleteContact;
+                vm.openInApp = openInApp;
 
                 $cordovaContacts.find({
                     filter: vm.speaker.id,
@@ -67,6 +68,22 @@
                             $cordovaToast.showLongBottom('Présentateur non supprimé...');
                         }
                     )
+                }
+
+                function openInApp(url) {
+                    var options = {
+                        location: 'no',
+                        clearcache: 'yes',
+                        toolbar: 'no'
+                    };
+                    $cordovaInAppBrowser.open(url, '_self', options).then(
+                        function (result) {
+                            // success
+                        },
+                        function (error) {
+                            // failed
+                        }
+                    );
                 }
 
                 function getContactForDevice() {

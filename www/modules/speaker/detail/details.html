@@ -21,7 +21,7 @@
         <div class="profile-desc" ng-bind-html="ctrl.renderHtml(ctrl.speaker.about)"></div>
 
         <div class="profile-socials">
-            <a ng-repeat="social in ctrl.speaker.socials" href="{{social.link}}">
+            <a ng-repeat="social in ctrl.speaker.socials" href="" ng-click="ctrl.openInApp(social.link)">
                 <ons-icon icon="fa-{{social.class}}" size="20px" fixed-width="true"></ons-icon>
             </a>
         </div>

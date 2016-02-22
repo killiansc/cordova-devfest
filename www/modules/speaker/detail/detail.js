@@ -16,6 +16,7 @@
                 vm.toggleContact = toggleContact;
                 vm.deleteContact = deleteContact;
                 vm.openInApp = openInApp;
+                vm.getSocialClass = getSocialClass;
 
                 $cordovaContacts.find({
                     filter: vm.speaker.id,
@@ -84,6 +85,11 @@
                             // failed
                         }
                     );
+                }
+
+                function getSocialClass(social) {
+                    if (social == 'site') return 'link';
+                    return social;
                 }
 
                 function getContactForDevice() {

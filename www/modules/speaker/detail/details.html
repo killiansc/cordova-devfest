@@ -22,7 +22,7 @@
 
         <div class="profile-socials">
             <a ng-repeat="social in ctrl.speaker.socials" href="" ng-click="ctrl.openInApp(social.link)">
-                <ons-icon icon="fa-{{social.class}}" size="20px" fixed-width="true"></ons-icon>
+                <ons-icon icon="fa-{{ctrl.getSocialClass(social.class)}}" size="20px" fixed-width="true"></ons-icon>
             </a>
         </div>
 

@@ -151,3 +151,7 @@
 .about {
     text-align: center;
 }
+
+.content-padding {
+    padding: 5px 10px;
+}

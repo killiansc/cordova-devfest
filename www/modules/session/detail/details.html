@@ -1,21 +1,26 @@
 <ons-page ng-controller="sessionDetailController as ctrl">
-    <ons-toolbar>
-        <div class="left">
-            <ons-back-button>Retour</ons-back-button>
+
+    <div class="content-padding">
+
+        <ons-toolbar>
+            <div class="left">
+                <ons-back-button>Retour</ons-back-button>
+            </div>
+            <div class="center">Session</div>
+        </ons-toolbar>
+
+        <h2 class="text-center">{{ctrl.session.title}}</h2>
+
+        <div class="text-center">Salle : <span>{{ctrl.session.confRoom}}</span></div>
+
+        <div class="text-center">
+            <h3 ng-repeat="speaker in ctrl.session.speakers" class="speaker">@{{speaker}}</h3>
         </div>
-        <div class="center">Session</div>
-    </ons-toolbar>
 
-    <h2 class="text-center">{{ctrl.session.title}}</h2>
+        <ons-button modifier="large" ng-click="ctrl.showNotes(ctrl.session)">Mes notes</ons-button>
 
-    <div class="text-center">Salle : <span>{{ctrl.session.confRoom}}</span></div>
+        <div ng-bind-html="ctrl.renderHtml(ctrl.session.desc)"></div>
 
-    <div class="text-center">
-        <h3 ng-repeat="speaker in ctrl.session.speakers" class="speaker">@{{speaker}}</h3>
     </div>
-
-    <ons-button modifier="large" ng-click="ctrl.showNotes(ctrl.session)">Mes notes</ons-button>
-
-    <div ng-bind-html="ctrl.renderHtml(ctrl.session.desc)"></div>
 
 </ons-page>

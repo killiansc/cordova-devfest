@@ -6,13 +6,13 @@
         <div class="center">Session</div>
     </ons-toolbar>
 
-    <h2>{{ctrl.session.title}}</h2>
+    <h2 class="text-center">{{ctrl.session.title}}</h2>
 
-    <div>Salle : <span>{{ctrl.session.confRoom}}</span></div>
+    <div class="text-center">Salle : <span>{{ctrl.session.confRoom}}</span></div>
 
-    <span ng-repeat="speaker in ctrl.session.speakers">
-        <h3 class="speaker">@{{speaker}}</h3>
-    </span>
+    <div class="text-center">
+        <h3 ng-repeat="speaker in ctrl.session.speakers" class="speaker">@{{speaker}}</h3>
+    </div>
 
     <ons-button modifier="large" ng-click="ctrl.showNotes(ctrl.session)">Mes notes</ons-button>
 

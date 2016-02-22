@@ -17,7 +17,7 @@
                         vm.speakers = speakers.values;
                     },
                     function (error) {
-                        $cordovaToast.showLongBottom('Une erreur est survenue...');
+                        $cordovaToast.showLongBottom('Impossible de récupérer les speakers...');
                     });
 
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////

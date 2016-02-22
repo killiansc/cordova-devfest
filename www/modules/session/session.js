@@ -19,7 +19,7 @@
                         vm.categories = sessions.categories;
                     },
                     function (error) {
-                        $cordovaToast.showLongBottom('Une erreur est survenue...');
+                        $cordovaToast.showLongBottom('Impossible de récupérer les sessions...');
                     });
 
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////
